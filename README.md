@@ -69,3 +69,58 @@ Expected output:
 ```
 tcp6        0      0 :::6653      :::* LISTEN       xxxx/java
 ```
+---
+## EXTRA: Keep ONOS Applications Always Active on Startup
+## 1️⃣ Create the Application List
+Based on your current configuration, these are the ONOS applications you want to start automatically:
+```
+org.onosproject.drivers.optical
+org.onosproject.openflow-message
+org.onosproject.drivers
+org.onosproject.config
+org.onosproject.drivers.ovsdb
+org.onosproject.hostprovider
+org.onosproject.lldpprovider
+org.onosproject.gui2
+org.onosproject.ovsdb-base
+org.onosproject.ovsdb
+org.onosproject.ovsdbhostprovider
+org.onosproject.ofagent
+org.onosproject.openflow-base
+org.onosproject.openflow
+org.onosproject.workflow.ofoverlay
+org.onosproject.optical-model
+org.onosproject.drivers.polatis.openflow
+org.onosproject.fwd
+org.onosproject.tunnel
+org.onosproject.virtual
+org.onosproject.workflow
+org.onosproject.yang
+```
+ONOS requires them in a single line, separated by commas, with no spaces:
+```
+org.onosproject.drivers.optical,org.onosproject.openflow-message,org.onosproject.drivers,org.onosproject.config,org.onosproject.drivers.ovsdb,org.onosproject.hostprovider,org.onosproject.lldpprovider,org.onosproject.gui2,org.onosproject.ovsdb-base,org.onosproject.ovsdb,org.onosproject.ovsdbhostprovider,org.onosproject.ofagent,org.onosproject.openflow-base,org.onosproject.openflow,org.onosproject.workflow.ofoverlay,org.onosproject.optical-model,org.onosproject.drivers.polatis.openflow,org.onosproject.fwd,org.onosproject.tunnel,org.onosproject.virtual,org.onosproject.workflow,org.onosproject.yang
+```
+## 2️⃣ Create a Permanent Alias
+This alias will let you start ONOS with all these apps enabled using a single command.
+Edit your shell configuration file:
+```
+nano ~/.bashrc
+```
+Add the following line at the end of the file:
+```
+alias start-onos='bazel run onos-local -- --apps=org.onosproject.drivers.optical,org.onosproject.openflow-message,org.onosproject.drivers,org.onosproject.config,org.onosproject.drivers.ovsdb,org.onosproject.hostprovider,org.onosproject.lldpprovider,org.onosproject.gui2,org.onosproject.ovsdb-base,org.onosproject.ovsdb,org.onosproject.ovsdbhostprovider,org.onosproject.ofagent,org.onosproject.openflow-base,org.onosproject.openflow,org.onosproject.workflow.ofoverlay,org.onosproject.optical-model,org.onosproject.drivers.polatis.openflow,org.onosproject.fwd,org.onosproject.tunnel,org.onosproject.virtual,org.onosproject.workflow,org.onosproject.yang'
+```
+Save and exit (Ctrl+X, then Y, then Enter).
+
+## 3️⃣ Apply the Changes and Start ONOS
+Reload your shell configuration:
+```
+source ~/.bashrc
+```
+Start ONOS with all applications enabled:
+```
+start-onos
+```
+📌 Benefit:
+With this alias, ONOS will always start with the same set of applications, without typing the full list every time.
